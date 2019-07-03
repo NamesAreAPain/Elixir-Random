@@ -1,0 +1,3 @@
+%{
+  "mersennetwister": {:git, "https://github.com/NamesAreAPain/MersenneTwister.git", "848ee376882b47c124eeac97d93f80fc44889052", []},
+}
