@@ -71,11 +71,16 @@ defmodule Random do
   
   @doc """
   returns (length(u_list)-2 )/(2*ncpts+1) low density blue points
+  for n pts, give n*(2*ncpts+1) + 2 uniform random numbers
   """
   def low_density_blue(ncpts,distfunc,u_list,bounds) when is_function(distfunc) do
     [xi,yi | rest_u_list] = u_list
     u_list_list = Enum.chunk_every(rest_u_list,2*ncpts+1)
     Enum.reduce(u_list_list,[{xi,yi}],fn u_part , acc -> low_density_blue_add_pt(acc,distfunc,bounds,u_part) end)
+  end
+  
+  def ldb_len(npts,ncpts) do
+    npts*(2*ncpts+1) + 2
   end
 
   defp low_density_blue_add_pt(setpts,distfunc,bounds,u_list) do
