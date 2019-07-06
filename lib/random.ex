@@ -87,9 +87,13 @@ defmodule Random do
     {xs,yplus} = Enum.split(u_list,trunc(length(u_list)/2))
     ys = Enum.take(yplus,length(yplus)-1)
     [u1] = Enum.take(yplus,-1)
-    {xbound,ybound} = bounds
+    {{xlower,ylower},{xupper,yupper}} =  case bounds do
+      {{a,b},{c,d}} -> bounds
+      {a,b} -> {{0,0},bounds}
+    end
+    {xrange,yrange} = {xupper-xlower,yupper-ylower}
     candidates = Enum.zip(xs,ys) 
-                 |> Enum.map(fn {x,y} -> {x*xbound,y*ybound} end)
+                 |> Enum.map(fn {x,y} -> {x*xrange+xlower,y*yrange+ylower} end)
     idx = Enum.map(candidates,
       fn cpt -> Enum.sum(Enum.map(setpts,fn spt -> distfunc.(spt,cpt) end)) end )
       |> weighted_choice(u1)
